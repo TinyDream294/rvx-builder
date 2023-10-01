@@ -80,8 +80,10 @@ preflight() {
   }
 
   install_dependencies() {
-    killall -9 java &> /dev/null
-    killall -9 node &> /dev/null
+    [[ -f "$RVB_DIR/settings.json" ]] && {
+      log "Node.js and JDK already installed."
+      return
+    }
     log "Updating Termux and installing dependencies..."
     pkg update -y
     pkg install nodejs-lts openjdk-17 -y || {
