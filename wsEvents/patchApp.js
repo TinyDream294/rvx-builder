@@ -11,15 +11,6 @@ const mountReVanced = require('../utils/mountReVanced.js');
  * @param {import('ws').WebSocket} ws
  */
 async function mount(ws) {
-  switch (global.jarNames.selectedApp.packageName) {
-    case 'com.google.android.youtube':
-      await exec(`su -c 'pm install -r -d com.google.android.youtube.apk'`);;
-      break;
-    case 'com.google.android.apps.youtube.music':
-      await exec(`su -c 'pm install -r -d com.google.android.apps.youtube.music.apk'`);;
-      break;
-  }
-
   ws.send(
     JSON.stringify({
       event: 'patchLog',
@@ -56,6 +47,12 @@ async function afterBuild(ws) {
       })
     );
   } else if (process.platform === 'android') {
+    await exec(
+      `su -c pm install -r -d "${join(
+        global.revancedDir,
+        global.jarNames.selectedApp.packageName
+      )}.apk"`
+    );
     await mount(ws);
   } else if (!(global.jarNames.devices && global.jarNames.devices[0])) {
     ws.send(
