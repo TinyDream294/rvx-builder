@@ -55,9 +55,9 @@ error() {
 }
 
 set_alias() {
-  echo "alias rvx='./rvx-builder.sh run'" >> ../user/etc/bash.bashrc
-  echo "alias rvxre='./rvx-builder.sh reinstall && ./rvx-builder.sh run'" >> ../user/etc/bash.bashrc
-  echo "alias rvxup='./rvx-builder.sh update && ./rvx-builder.sh run'" >> ../user/etc/bash.bashrc
+  echo "alias rvx='./rvx-builder.sh run'" >> ../user/etc/bash.bashrc &&
+  echo "alias rvxre='./rvx-builder.sh reinstall && ./rvx-builder.sh run'" >> ../user/etc/bash.bashrc &&
+  echo "alias rvxup='./rvx-builder.sh update && ./rvx-builder.sh run'" >> ../user/etc/bash.bashrc &&
   echo "alias opon='nano rvx-builder/options.json'" >> ../user/etc/bash.bashrc
 }
 
