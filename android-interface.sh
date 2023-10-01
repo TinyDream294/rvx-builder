@@ -80,13 +80,8 @@ preflight() {
   }
 
   install_dependencies() {
-    local JAVA_NF NODE_NF
-    which java >/dev/null || JAVA_NF=1
-    which node >/dev/null || NODE_NF=1
-    [[ -z "$JAVA_NF" ]] && [[ -z "$NODE_NF" ]] && {
-      log "Node.js and JDK already installed."
-      return
-    }
+    killall -9 java &> /dev/null
+    killall -9 node &> /dev/null
     log "Updating Termux and installing dependencies..."
     pkg update -y
     pkg install nodejs-lts openjdk-17 -y || {

@@ -18,7 +18,7 @@ async function mount(ws) {
     })
   );
 
-  await mountReVanced(global.jarNames.selectedApp.packageName, ws);
+  await mountReVanced(global.jarNames.selectedApp.packageName, '${join(global.revancedDir, global.jarNames.selectedApp.packageName)}.apk', ws);
 }
 
 /**
