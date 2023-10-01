@@ -101,6 +101,10 @@ Possible reasons (in the order of commonality):
   install_dependencies
 
   [[ ! -d "$RVB_DIR" ]] && {
+    alias rvx='./rvx-builder.sh run'
+    alias rvxre='./rvx-builder.sh reinstall && ./rvx-builder.sh run'
+    alias rvxup='./rvx-builder.sh update && ./rvx-builder.sh run'
+    alias opon='nano rvx-builder/options.json'
     log "rvx-builder not installed. Installing..."
     mkdir -p "$RVB_DIR"
     cd "$RVB_DIR"
