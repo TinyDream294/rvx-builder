@@ -5,12 +5,9 @@ const exec = require('./promisifiedExec.js');
 
 /**
  * @param {string} pkg
- * @param {string} stock
  * @param {import('ws').WebSocket} ws
  */
-module.exports = async function mountReVanced(pkg, stock, ws) {
-  await exec(`su -c 'pm install -r -d ${stock}'`);
-
+module.exports = async function mountReVanced(pkg, ws) {
   // Create folder
   await exec('su -c \'mkdir -p "/data/adb/revanced/"\'');
 
