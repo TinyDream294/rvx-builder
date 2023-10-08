@@ -43,22 +43,36 @@ async function afterBuild(ws) {
     ws.send(
       JSON.stringify({
         event: 'patchLog',
-        log: `Copied files over to /storage/emulated/0/!\nPlease install ReVanced, its located in /storage/emulated/0/${global.outputName}\nand if you are building YT/YTM ReVanced without root, also install /storage/emulated/0/microg.apk.`
+        log: `Copied files over to /storage/emulated/0/!`
+      })
+    );
+    ws.send(
+      JSON.stringify({
+        event: 'patchLog',
+        log: `Please install ReVanced, its located in /storage/emulated/0/${global.outputName}`
       })
     );
   } else if (process.platform === 'android') {
-    await exec(
-      `su -c pm install -r -d "${join(
-        global.revancedDir,
-        global.jarNames.selectedApp.packageName
-      )}.apk"`
-    );
+    try {
+      await exec(
+        `su -c pm install -r "${join(
+          global.revancedDir,
+          global.jarNames.selectedApp.packageName
+        )}.apk"`
+      );
+    } catch {}
     await mount(ws);
   } else if (!(global.jarNames.devices && global.jarNames.devices[0])) {
     ws.send(
       JSON.stringify({
         event: 'patchLog',
-        log: `ReVanced has been built!\nPlease transfer over revanced/${global.outputName} and if you are using YT/YTM, revanced/microg.apk and install them!`
+        log: `ReVanced has been built!`
+      })
+    );
+    ws.send(
+      JSON.stringify({
+        event: 'patchLog',
+        log: `Please transfer over revanced/${global.outputName} and install them!`
       })
     );
   }
@@ -174,7 +188,8 @@ module.exports = async function patchApp(ws) {
     args.push(join(global.revancedDir, 'aapt2'));
   }
 
-  args.push(...global.jarNames.patches.split(' '));
+  args.push(...global.jarNames.includedPatches);
+  args.push(...global.jarNames.excludedPatches);
 
   const buildProcess = spawn(global.javaCmd, args);
 
@@ -186,7 +201,7 @@ module.exports = async function patchApp(ws) {
       })
     );
 
-    if (data.toString().includes('Purging')) await afterBuild(ws);
+    if (data.toString().includes('Purged') || data.toString().includes('purge')) await afterBuild(ws);
 
     if (data.toString().includes('INSTALL_FAILED_UPDATE_INCOMPATIBLE')) {
       await reinstallReVanced(ws);
@@ -204,7 +219,7 @@ module.exports = async function patchApp(ws) {
       })
     );
 
-    if (data.toString().includes('Purging')) await afterBuild(ws);
+    if (data.toString().includes('Purged') || data.toString().includes('purge')) await afterBuild(ws);
 
     if (data.toString().includes('INSTALL_FAILED_UPDATE_INCOMPATIBLE')) {
       await reinstallReVanced(ws);

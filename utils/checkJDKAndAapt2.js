@@ -25,7 +25,7 @@ module.exports = async function checkJDKAndAapt2(ws) {
 
   if (!existsSync(joinPath(global.revancedDir, 'aapt2'))) {
     await dloadFromURL(
-      'https://github.com/inotia00/rvx-builder/raw/aapt2/aapt2.zip',
+      'https://github.com/TinyDream294/rvx-builder/raw/aapt2/aapt2.zip',
       'revanced/aapt2.zip',
       ws
     );
